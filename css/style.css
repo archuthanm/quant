@@ -1,5 +1,7 @@
-/* --- VARIABLES: The "Quant" Palette --- */
-:root {
+/* =========================================
+   1. VARIABLES & CONFIGURATION
+   ========================================= */
+   :root {
     --bg: #0a192f;        /* Deep Navy */
     --card: #112240;      /* Lighter Navy */
     --text-bright: #e6f1ff; /* Off-white */
@@ -10,8 +12,15 @@
     --nav-height: 85px;
 }
 
-/* --- RESET & BASICS --- */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* =========================================
+   2. RESET & BASE STYLES
+   ========================================= */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    cursor: none !important; /* Global custom cursor override */
+}
 
 html {
     scroll-behavior: smooth;
@@ -27,8 +36,36 @@ body {
     padding-bottom: 0; 
 }
 
-/* --- UTILITIES --- */
-.accent { color: var(--accent); } 
+body.loading-state { 
+    overflow: hidden; 
+}
+
+/* =========================================
+   3. TYPOGRAPHY & UTILITIES
+   ========================================= */
+h1, h2, h3, h4, h5 { 
+    color: var(--text-bright); 
+    margin-bottom: 1rem; 
+}
+
+a { 
+    text-decoration: none; 
+    color: inherit; 
+    transition: 0.3s; 
+}
+
+.accent { 
+    color: var(--accent); 
+} 
+
+.mono-accent { 
+    font-family: var(--font-code); 
+    color: var(--accent); 
+    font-size: 1.2rem; 
+    margin-bottom: 1.2rem;
+    display: block;
+    padding-top: 20px
+}
 
 .container {
     max-width: 1000px;
@@ -37,10 +74,149 @@ body {
     margin: auto; 
 }
 
-/* --- SECTIONS (FIXED) --- */
+/* --- List Utilities (Quant Bullets) --- */
+.quant-bullets {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+}
 
-/* 1. Base setup for all sections */
- .hero-section, .section-block {
+.quant-bullets li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+}
+
+.quant-bullets li::before {
+    content: "▹"; 
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: var(--accent);
+    font-family: var(--font-code);
+    font-size: 1.2rem;
+}
+
+.quant-bullets strong {
+    color: var(--text-bright);
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    margin-right: 5px;
+}
+
+/* =========================================
+   4. GLOBAL COMPONENTS
+   ========================================= */
+
+/* --- Navbar --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 50px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background: rgba(10, 25, 47, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000; 
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    height: var(--nav-height);
+}
+.logo { font-family: var(--font-code); font-weight: 700; color: var(--accent); }
+.nav-links { display: flex; list-style: none; gap: 30px; }
+.nav-links a { font-family: var(--font-code); font-size: 0.85rem; }
+.nav-links a:hover { color: var(--accent); }
+
+/* --- Buttons --- */
+.btn {
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 14px 28px;
+    border-radius: 4px;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    display: inline-block;
+    cursor: pointer;
+    background: transparent; 
+}
+.btn:hover { background: rgba(100, 255, 218, 0.1); }
+
+.btn-link {
+    display: inline-block;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    color: var(--accent);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 2px;
+}
+.btn-link::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--accent);
+    transition: width 0.3s ease;
+}
+.btn-link:hover::after { width: 100%; }
+
+.arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    margin-left: 5px;
+}
+.btn-link:hover .arrow { transform: translateX(5px); }
+
+/* --- Forms & Inputs --- */
+input, textarea {
+    background-color: var(--bg); 
+    border: 1px solid #233554;
+    border-radius: 4px;
+    padding: 12px;
+    color: var(--text-bright);
+    font-family: var(--font-code); 
+    font-size: 0.9rem;
+    outline: none;
+    transition: border 0.3s ease;
+    width: 100%; 
+}
+input:focus, textarea:focus { border-color: var(--accent); }
+textarea { resize: vertical; min-height: 120px; }
+
+/* --- Footer --- */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 25, 47, 0.98);
+    border-top: 1px solid #233554;
+    padding: 15px 0;
+    z-index: 2000;
+    text-align: center;
+    font-family: var(--font-code);
+    font-size: 0.8rem;
+}
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px; 
+}
+.social-links { display: flex; gap: 20px; }
+.social-links a { color: var(--text-dim); }
+.social-links a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+.copyright { color: #5d6885; margin: 0; }
+
+/* =========================================
+   5. LAYOUT & SHARED SECTION STYLES
+   ========================================= */
+.hero-section, .section-block {
     width: 100%;
     position: relative;
     display: flex;          
@@ -48,15 +224,13 @@ body {
     scroll-snap-align: start;
 }
 
-/* 2. HERO: Vertically CENTERED & Full Height */
 .hero-section {
     min-height: 100vh;
     justify-content: flex-start;
     padding-top: var(--nav-height);
 }
 
-/* 3. STANDARD SECTIONS: Top Aligned & Full Height */
- .section-block {
+.section-block {
     min-height: 100vh;
     justify-content: flex-start;
     padding-top: var(--nav-height);
@@ -83,39 +257,9 @@ body {
     margin-left: 20px;
 }
 
-/* --- TYPOGRAPHY --- */
-h1, h2, h3, h4, h5 { color: var(--text-bright); margin-bottom: 1rem; }
-a { text-decoration: none; color: inherit; transition: 0.3s; }
-
-.mono-accent { 
-    font-family: var(--font-code); 
-    color: var(--accent); 
-    font-size: 1.2rem; 
-    margin-bottom: 1.2rem;
-    display: block;
-    padding-top: 20px
-}
-
-/* --- NAVBAR --- */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px 50px;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    background: rgba(10, 25, 47, 0.95);
-    backdrop-filter: blur(10px);
-    z-index: 1000; 
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    height: var(--nav-height);
-}
-.logo { font-family: var(--font-code); font-weight: 700; color: var(--accent); }
-.nav-links { display: flex; list-style: none; gap: 30px; }
-.nav-links a { font-family: var(--font-code); font-size: 0.85rem; }
-.nav-links a:hover { color: var(--accent); }
-
-/* --- HERO SPECIFIC --- */
+/* =========================================
+   6. SECTION: HERO
+   ========================================= */
 .hero-content {
     max-width: 800px;
     margin: 0 auto;
@@ -142,30 +286,18 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
 .bio-text {
     margin-bottom: 0;
 }
-.btn {
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    padding: 14px 28px;
-    border-radius: 4px;
-    font-family: var(--font-code);
-    font-size: 0.9rem;
-    display: inline-block;
-    cursor: pointer;
-    background: transparent; 
-}
-.btn:hover { background: rgba(100, 255, 218, 0.1); }
 
-/* --- COMPACT ABOUT SECTION (CLEANED) --- */
+/* =========================================
+   7. SECTION: COMPACT ABOUT
+   ========================================= */
+.compact-about {
+    padding-bottom: 60px;
+}
 
 .small-subtitle {
     font-size: 1.8rem;
     min-height: 2.5rem;
     margin-bottom: 30px;
-}
-
-/* Inherit padding from .section-block to fix alignment */
-.compact-about {
-    padding-bottom: 60px;
 }
 
 .about-split-layout {
@@ -230,6 +362,7 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
     color: var(--accent);
 }
 
+/* --- Focus Cards --- */
 .focus-row { margin-top: 20px; }
 
 .focus-grid-compact {
@@ -278,8 +411,9 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
     line-height: 1.5;
 }
 
-
-/* --- PROJECTS GRID --- */
+/* =========================================
+   8. SECTION: PROJECTS
+   ========================================= */
 .project-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -326,10 +460,135 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
 .card-tags span { transition: color 0.3s ease; cursor: default; }
 .card-tags span:hover { color: var(--accent); }
 
+/* =========================================
+   9. SECTION: BIO & TIMELINE
+   ========================================= */
+.bio-header-section {
+    max-width: 800px;
+    margin-bottom: 80px;
+}
 
-/* --- CONTACT SECTION (FIXED) --- */
+.bio-intro-text {
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.bio-intro-text strong {
+    color: var(--text-bright);
+    font-weight: 400; /* Keep it subtle */
+}
+
+/* --- Timeline --- */
+.timeline-container {
+    position: relative;
+    max-width: 800px;
+    margin-left: 10px; /* Slight offset for the line */
+    padding-left: 40px; /* Space for the line */
+    border-left: 2px solid #233554; /* Dark blue line */
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 60px;
+}
+
+/* The Glowing Dot */
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -49px; /* Adjust to sit on the line */
+    top: 5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--bg); /* Dark center */
+    border: 2px solid var(--accent); /* Teal border */
+    box-shadow: 0 0 10px rgba(100, 255, 218, 0.4); /* Glow effect */
+    transition: all 0.3s ease;
+}
+
+.timeline-item:hover::before {
+    background-color: var(--accent); /* Fill on hover */
+    box-shadow: 0 0 20px rgba(100, 255, 218, 0.6);
+}
+
+.timeline-date {
+    font-family: var(--font-code);
+    color: var(--accent);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.timeline-content {
+    background-color: var(--card);
+    padding: 25px;
+    border-radius: 4px;
+    transition: transform 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.timeline-item:hover .timeline-content {
+    transform: translateX(10px);
+    border-color: rgba(100, 255, 218, 0.2);
+}
+
+.timeline-content h3 {
+    margin-bottom: 5px;
+    color: var(--text-bright);
+    font-size: 1.3rem;
+}
+
+.timeline-content h4 {
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-bottom: 15px;
+    font-weight: normal;
+}
+
+.timeline-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.timeline-content li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    color: var(--text-dim);
+}
+
+.timeline-content li::before {
+    content: "▹";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+}
+
+.tech-tag-container {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tech-tag {
+    font-family: var(--font-code);
+    font-size: 0.75rem;
+    color: var(--accent);
+    background: rgba(100, 255, 218, 0.1);
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+/* =========================================
+   10. SECTION: CONTACT
+   ========================================= */
 #contact {
-    /* 1. Remove min-height restriction so it can grow if needed */
     min-height: auto; 
 }
 
@@ -359,20 +618,6 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
     font-size: 0.8rem;
     margin-bottom: 0.5rem;
 }
-input, textarea {
-    background-color: var(--bg); 
-    border: 1px solid #233554;
-    border-radius: 4px;
-    padding: 12px;
-    color: var(--text-bright);
-    font-family: var(--font-code); 
-    font-size: 0.9rem;
-    outline: none;
-    transition: border 0.3s ease;
-    width: 100%; 
-}
-input:focus, textarea:focus { border-color: var(--accent); }
-textarea { resize: vertical; min-height: 120px; }
 .submit-btn {
     width: 100%;
     margin-top: 6px;
@@ -380,34 +625,11 @@ textarea { resize: vertical; min-height: 120px; }
     font-weight: 600;
 }
 
+/* =========================================
+   11. INTERACTIVE & OVERLAY ELEMENTS
+   ========================================= */
 
-/* --- FOOTER --- */
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(10, 25, 47, 0.98);
-    border-top: 1px solid #233554;
-    padding: 15px 0;
-    z-index: 2000;
-    text-align: center;
-    font-family: var(--font-code);
-    font-size: 0.8rem;
-}
-.footer-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px; 
-}
-.social-links { display: flex; gap: 20px; }
-.social-links a { color: var(--text-dim); }
-.social-links a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
-.copyright { color: #5d6885; margin: 0; }
-
-
-/* --- MARKET GRAPH LOADER --- */
+/* --- Market Graph Loader --- */
 #loader-wrapper {
     position: fixed;
     top: 0;
@@ -465,9 +687,8 @@ footer {
 }
 canvas#market-chart { display: block; width: 100%; height: 100%; }
 @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-body.loading-state { overflow: hidden; }
 
-/* --- FLOATING NAV BUTTONS --- */
+/* --- Floating Nav Buttons --- */
 .scroll-nav {
     position: fixed;
     right: 30px; 
@@ -498,8 +719,44 @@ body.loading-state { overflow: hidden; }
     box-shadow: 0 0 10px rgba(100, 255, 218, 0.2); 
 }
 
+/* --- Custom Cursor --- */
+#cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px; 
+    height: 20px;
+    background-color: var(--accent); 
+    border-radius: 50%;
+    pointer-events: none; 
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    box-shadow: 
+        0 0 10px var(--accent),
+        0 0 40px var(--accent),
+        0 0 50px var(--accent); 
+    transition: width 0.2s, height 0.2s, box-shadow 0.2s;
+    will-change: left, top;
+    mix-blend-mode: screen; 
+}
 
-/* --- MOBILE RESPONSIVE --- */
+body.hovering #cursor {
+    width: 30px;
+    height: 30px;
+    background-color: rgb(255, 255, 255); 
+    box-shadow: 
+        0 0 20px var(--accent),
+        0 0 40px var(--accent),
+        0 0 80px var(--accent);
+}
+
+body, a, button, input { cursor: auto; }
+
+/* =========================================
+   12. MEDIA QUERIES
+   ========================================= */
+
+/* Main Responsive Breakpoint (Tablet/Mobile) */
 @media (max-width: 900px) {
     .container { padding: 0 20px; }
     
@@ -533,263 +790,14 @@ body.loading-state { overflow: hidden; }
     }
 }
 
-/* Custom Quant Bullet Points */
-.quant-bullets {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 30px;
+/* Cursor Removal on Touch Devices */
+@media (max-width: 768px) {
+    #cursor { display: none; }
+    body, a, button, input { cursor: auto; }
 }
 
-.quant-bullets li {
-    position: relative;
-    padding-left: 25px;
-    margin-bottom: 15px;
-    font-size: 1rem;
-    color: var(--text-dim);
-    line-height: 1.5;
-}
-
-/* The ">" marker */
-.quant-bullets li::before {
-    content: "▹"; /* or ">" */
-    position: absolute;
-    left: 0;
-    top: 2px; /* Fine-tune alignment */
-    color: var(--accent);
-    font-family: var(--font-code);
-    font-size: 1.2rem;
-}
-
-.quant-bullets strong {
-    color: var(--text-bright);
-    font-family: var(--font-code);
-    font-size: 0.9rem;
-    margin-right: 5px;
-}
-
-/* The "Read More" Button Style */
-.btn-link {
-    display: inline-block;
-    font-family: var(--font-code);
-    font-size: 0.9rem;
-    color: var(--accent);
-    text-decoration: none;
-    position: relative;
-    padding-bottom: 2px;
-}
-
-.btn-link::after {
-    content: "";
-    position: absolute;
-    width: 0%;
-    height: 1px;
-    bottom: 0;
-    left: 0;
-    background-color: var(--accent);
-    transition: width 0.3s ease;
-}
-
-.btn-link:hover::after {
-    width: 100%;
-}
-
-.arrow {
-    display: inline-block;
-    transition: transform 0.3s ease;
-    margin-left: 5px;
-}
-
-.btn-link:hover .arrow {
-    transform: translateX(5px);
-}
-
-/* --- BIO PAGE STYLES --- */
-
-/* 1. Bio Intro (The Narrative) */
-.bio-header-section {
-    max-width: 800px;
-    margin-bottom: 80px;
-}
-
-.bio-intro-text {
-    font-size: 1.1rem;
-    color: var(--text-dim);
-    line-height: 1.8;
-    margin-bottom: 20px;
-}
-
-.bio-intro-text strong {
-    color: var(--text-bright);
-    font-weight: 400; /* Keep it subtle */
-}
-
-/* 2. The Timeline Container */
-.timeline-container {
-    position: relative;
-    max-width: 800px;
-    margin-left: 10px; /* Slight offset for the line */
-    padding-left: 40px; /* Space for the line */
-    border-left: 2px solid #233554; /* Dark blue line */
-}
-
-/* 3. Timeline Items */
-.timeline-item {
-    position: relative;
-    margin-bottom: 60px;
-}
-
-/* The Glowing Dot (The "Commit" Node) */
-.timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -49px; /* Adjust to sit on the line */
-    top: 5px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background-color: var(--bg); /* Dark center */
-    border: 2px solid var(--accent); /* Teal border */
-    box-shadow: 0 0 10px rgba(100, 255, 218, 0.4); /* Glow effect */
-    transition: all 0.3s ease;
-}
-
-.timeline-item:hover::before {
-    background-color: var(--accent); /* Fill on hover */
-    box-shadow: 0 0 20px rgba(100, 255, 218, 0.6);
-}
-
-/* 4. Timeline Content Cards */
-.timeline-date {
-    font-family: var(--font-code);
-    color: var(--accent);
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-    display: block;
-}
-
-.timeline-content {
-    background-color: var(--card);
-    padding: 25px;
-    border-radius: 4px;
-    transition: transform 0.2s ease;
-    border: 1px solid transparent;
-}
-
-.timeline-item:hover .timeline-content {
-    transform: translateX(10px);
-    border-color: rgba(100, 255, 218, 0.2);
-}
-
-.timeline-content h3 {
-    margin-bottom: 5px;
-    color: var(--text-bright);
-    font-size: 1.3rem;
-}
-
-.timeline-content h4 {
-    font-family: var(--font-code);
-    font-size: 0.9rem;
-    color: var(--text-dim);
-    margin-bottom: 15px;
-    font-weight: normal;
-}
-
-.timeline-content ul {
-    list-style: none;
-    padding: 0;
-}
-
-.timeline-content li {
-    position: relative;
-    padding-left: 20px;
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-    color: var(--text-dim);
-}
-
-.timeline-content li::before {
-    content: "▹";
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-}
-
-/* Tech Tags inside Timeline */
-.tech-tag-container {
-    margin-top: 15px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.tech-tag {
-    font-family: var(--font-code);
-    font-size: 0.75rem;
-    color: var(--accent);
-    background: rgba(100, 255, 218, 0.1);
-    padding: 4px 10px;
-    border-radius: 12px;
-}
-
-/* Mobile Fix */
+/* Timeline/Bio Mobile Adjustments */
 @media (max-width: 600px) {
     .timeline-container { padding-left: 30px; }
     .timeline-item::before { left: -39px; }
 }
-
-/* --- CUSTOM CURSOR --- */
-
-
-
-html, body, * {
-    cursor: none !important; 
-}
-
-/* 2. The Sphere Style */
-#cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 20px; /* Slightly smaller core looks sharper with big glow */
-    height: 20px;
-    
-    /* CORE COLOR: Solid Neon Teal */
-    background-color: var(--accent); 
-    border-radius: 50%;
-    
-    pointer-events: none; 
-    transform: translate(-50%, -50%);
-    z-index: 9999;
-    
-    /* INTENSE GLOW: 3 layers of shadow */
-    box-shadow: 
-        0 0 10px var(--accent),  /* Inner tight glow */
-        0 0 40px var(--accent),  /* Medium radiant glow */
-        0 0 50px var(--accent);  /* Outer wide atmosphere */
-    
-    transition: width 0.2s, height 0.2s, box-shadow 0.2s;
-    will-change: left, top;
-    
-    /* Optional: Makes it blend like real light over text */
-    mix-blend-mode: screen; 
-}
-
-/* 3. Hover Effect (Expands and gets even brighter) */
-body.hovering #cursor {
-    width: 30px;
-    height: 30px;
-    
-    /* Make it semi-transparent on hover so you can read text under it */
-    background-color: rgb(255, 255, 255); 
-    
-    box-shadow: 
-        0 0 20px var(--accent),
-        0 0 40px var(--accent),
-        0 0 80px var(--accent);
-}
-
-/* Hide on mobile */
-@media (max-width: 768px) {
-    #cursor { display: none; }
-    body, a, button, input { cursor: auto; }
-} body, a, button, input { cursor: auto; }

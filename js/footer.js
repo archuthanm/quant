@@ -1,6 +1,5 @@
 class AppFooter extends HTMLElement {
     connectedCallback() {
-        // Auto-update year
         const currentYear = new Date().getFullYear();
 
         this.innerHTML = `
