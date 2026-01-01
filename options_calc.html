@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quant Lab | Archuthan Mohanathasan</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+
+    <style>        
+        /* Disable scroll snap for this page so you can scroll freely */
+        html { scroll-snap-type: none !important; }
+        
+        /* Ensure body allows scrolling */
+        body { 
+            overflow-y: auto !important; 
+            height: auto !important;
+        }
+
+        /* Adjust container to sit below the fixed navbar (85px) */
+        .calc-container {
+            max-width: 900px;
+            margin: 120px auto 60px auto; /* 120px top margin clears navbar */
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* --- CALCULATOR STYLES --- */
+        .calc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .input-group { margin-bottom: 20px; }
+
+        label {
+            display: block;
+            font-family: var(--font-code);
+            color: var(--accent);
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        input, select {
+            width: 100%;
+            background: #112240;
+            border: 1px solid #233554;
+            color: var(--text-bright);
+            padding: 12px;
+            border-radius: 4px;
+            font-family: var(--font-code);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus { border-color: var(--accent); outline: none; }
+
+        .btn-calc {
+            width: 100%;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 15px;
+            font-weight: bold;
+            font-family: var(--font-code);
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 20px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-calc:hover { opacity: 0.9; }
+        .btn-calc:disabled { background: #8892b0; cursor: wait; opacity: 0.5; }
+
+        .result-box {
+            background: #112240;
+            padding: 25px;
+            border-radius: 4px;
+            border: 1px solid var(--accent);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #233554;
+            padding-bottom: 5px;
+        }
+
+        .result-label { color: var(--text-dim); font-size: 0.9rem; }
+        .result-val { color: var(--text-bright); font-family: var(--font-code); font-weight: bold; }
+        
+        .status-bar {
+            margin-top: 15px;
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            text-align: center;
+            color: var(--text-dim);
+            min-height: 20px;
+        }
+        
+        .badge {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 8px;
+            text-transform: uppercase;
+        }
+        .badge-mc { background: rgba(100, 255, 218, 0.1); color: var(--accent); border: 1px solid var(--accent); }
+        .badge-bs { background: #112240; color: #8892b0; border: 1px solid #8892b0; }
+
+        @media(max-width: 768px) { .calc-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+
+    <app-navbar></app-navbar>
+
+    <main>
+        <div class="calc-container">
+            <div style="margin-bottom: 30px;">
+                <a href="index.html#lab" class="btn-link" style="font-size: 0.85rem; opacity: 0.8;">
+                    &larr; Return to Quant Lab
+                </a>
+            </div>
+            <section style="padding: 0;">
+                <p class="mono-accent">Application 001</p>
+                <h1>Options Pricing Engine</h1>
+                <p class="bio-intro-text">
+                    A client-side deployment of the pricing algorithms from my research. This tool executes a high-performance <strong>Monte Carlo Simulation</strong> after applying variance reduction techniques.
+                    <br><br>
+                    It allows for an instant accuracy comparison between numerical estimation and the exact theoretical price derived from the <strong>Black-Scholes model</strong>.
+                </p>
+            </section>
+
+            <div class="calc-grid">
+                <div class="calc-inputs">
+                    <div class="input-group">
+                        <label>Spot Price (S)</label>
+                        <input type="number" id="S" value="100">
+                    </div>
+                    <div class="input-group">
+                        <label>Strike Price (K)</label>
+                        <input type="number" id="K" value="100">
+                    </div>
+                    <div class="input-group">
+                        <label>Volatility (σ) e.g. 0.2</label>
+                        <input type="number" id="sigma" value="0.2" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label>Risk-Free Rate (r) e.g. 0.05</label>
+                        <input type="number" id="r" value="0.05" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label>Time to Maturity (T) Years</label>
+                        <input type="number" id="T" value="1.0" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Option Type</label>
+                        <select id="type">
+                            <option value="C">Call</option>
+                            <option value="P">Put</option>
+                        </select>
+                    </div>
+
+                    <button id="run-btn" class="btn-calc" onclick="runPricing()">Loading Python Environment...</button>
+                    <div id="status" class="status-bar">Initializing Pyodide...</div>
+                </div>
+
+                <div class="result-box">
+                    <h3>Valuation</h3>
+                    <div class="result-row">
+                        <span class="result-label">Black-Scholes <span class="badge badge-bs">Exact</span></span>
+                        <span class="result-val" id="bs-price">--</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Monte Carlo <span class="badge badge-mc">Sim</span></span>
+                        <span class="result-val" id="mc-price">--</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Standard Error (SE)</span>
+                        <span class="result-val" id="mc-se" style="color: #ff5f56;">--</span>
+                    </div>
+                    
+                    <h3 style="margin-top: 30px;">The Greeks</h3>
+                    <div class="result-row">
+                        <span class="result-label">Delta (Δ)</span>
+                        <span class="result-val" id="g-delta">--</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Gamma (Γ)</span>
+                        <span class="result-val" id="g-gamma">--</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Vega (ν)</span>
+                        <span class="result-val" id="g-vega">--</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Theta (Θ)</span>
+                        <span class="result-val" id="g-theta">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <app-footer></app-footer>
+    <script src="js/navbar.js"></script>
+    <script src="js/footer.js"></script>
+    
+    <script src="js/script.js"></script>
+
+    <script>
+        let pyodide;
+
+        async function main() {
+            let btn = document.getElementById("run-btn");
+            let status = document.getElementById("status");
+            
+            btn.disabled = true;
+
+            try {
+                // Initialize Pyodide
+                pyodide = await loadPyodide();
+                
+                // Load NumPy and SciPy
+                status.innerText = "Loading NumPy & SciPy...";
+                await pyodide.loadPackage(["numpy", "scipy"]);
+                
+                // Define Python Code
+                await pyodide.runPythonAsync(`
+import numpy as np
+from scipy.stats import norm
+
+# ==========================================
+# PART 1: BLACK-SCHOLES
+# ==========================================
+
+def blackScholes(r: float, S: float, X: float, T: float, sigma: float, option_type: str) -> float:
+    d1 = (np.log(S / X) + (r + 0.5 * sigma ** 2) * T) / (sigma * np.sqrt(T))
+    d2 = d1 - sigma * np.sqrt(T)
+
+    if option_type == "C":
+        price = S * norm.cdf(d1) - X * np.exp(-r * T) * norm.cdf(d2)
+    elif option_type == "P":
+        price = X * np.exp(-r * T) * norm.cdf(-d2) - S * norm.cdf(-d1)
+    else:
+        raise ValueError("option_type must be 'C' for Call or 'P' for Put")
+    return price
+
+def bs_delta(r: float, S: float, X: float, T: float, sigma: float, option_type: str) -> float:
+    d1 = (np.log(S / X) + (r + 0.5 * sigma ** 2) * T) / (sigma * np.sqrt(T))
+    if option_type == "C":
+        delta = norm.cdf(d1)
+    elif option_type == "P":
+        delta = norm.cdf(d1) - 1
+    return delta
+
+def bs_gamma(r: float, S: float, X: float, T: float, sigma: float) -> float:
+    d1 = (np.log(S / X) + (r + 0.5 * sigma ** 2) * T) / (sigma * np.sqrt(T))
+    gamma = norm.pdf(d1) / (S * sigma * np.sqrt(T))
+    return gamma
+
+def bs_vega(r: float, S: float, X: float, T: float, sigma: float) -> float:
+    d1 = (np.log(S / X) + (r + 0.5 * sigma ** 2) * T) / (sigma * np.sqrt(T))
+    vega = S * norm.pdf(d1) * np.sqrt(T)
+    return vega / 100 
+
+def bs_theta(r: float, S: float, X: float, T: float, sigma: float, option_type: str) -> float:
+    d1 = (np.log(S / X) + (r + 0.5 * sigma ** 2) * T) / (sigma * np.sqrt(T))
+    d2 = d1 - sigma * np.sqrt(T)
+    if option_type == "C":
+        theta = (-S * norm.pdf(d1) * sigma / (2 * np.sqrt(T)) - r * X * np.exp(-r * T) * norm.cdf(d2))
+    elif option_type == "P":
+        theta = (-S * norm.pdf(d1) * sigma / (2 * np.sqrt(T)) + r * X * np.exp(-r * T) * norm.cdf(-d2))
+    return theta / 365 
+
+def bs_rho(r: float, S: float, X: float, T: float, sigma: float, option_type: str) -> float:
+    d1 = (np.log(S / X) + (r + 0.5 * sigma ** 2) * T) / (sigma * np.sqrt(T))
+    d2 = d1 - sigma * np.sqrt(T)
+    if option_type == "C":
+        rho = X * T * np.exp(-r * T) * norm.cdf(d2)
+    elif option_type == "P":
+        rho = -X * T * np.exp(-r * T) * norm.cdf(-d2)
+    return rho / 100 
+
+# ==========================================
+# PART 2: MONTE CARLO (Exact Implementation)
+# ==========================================
+
+# Required aliases
+delta = bs_delta
+gamma = bs_gamma
+
+def mc_antithetic_delta_gamma(
+    S: float, X: float, vol: float, r: float, N: int, M: int, Z: np.ndarray, T: float, type: str
+):
+    # Precompute constants
+    dt = T / N
+    drift_dt = (r - vol**2 / 2) * dt
+    volsdt = vol * np.sqrt(dt)
+    erdt = np.exp(r * dt)
+    ergamma = np.exp((2 * r + vol**2) * dt) - 2 * erdt + 1
+    beta1 = -1    
+    beta2 = -0.5  
+
+    # Log-price increments
+    delta_St1 = drift_dt + volsdt * Z
+    delta_St2 = drift_dt - volsdt * Z
+    
+    # Cumulative asset price paths
+    ST1 = S * np.cumprod(np.exp(delta_St1), axis=0)
+    ST2 = S * np.cumprod(np.exp(delta_St2), axis=0)
+    ST1 = np.concatenate((np.full(shape=(1, M), fill_value=S), ST1))
+    ST2 = np.concatenate((np.full(shape=(1, M), fill_value=S), ST2))
+    
+    # Delta and Gamma
+    deltaST1 = delta(r, ST1[:-1].T, X, np.linspace(T, dt, N), vol, type).T
+    deltaST2 = delta(r, ST2[:-1].T, X, np.linspace(T, dt, N), vol, type).T
+    gammaST1 = gamma(r, ST1[:-1].T, X, np.linspace(T, dt, N), vol).T
+    gammaST2 = gamma(r, ST2[:-1].T, X, np.linspace(T, dt, N), vol).T
+    
+    # Control variate adjustments
+    cv1d = np.cumsum(deltaST1 * (ST1[1:] - ST1[:-1] * erdt), axis=0)
+    cv2d = np.cumsum(deltaST2 * (ST2[1:] - ST2[:-1] * erdt), axis=0)
+    cv1g = np.cumsum(gammaST1 * ((ST1[1:] - ST1[:-1]) ** 2 - ergamma * ST1[:-1] ** 2), axis=0)
+    cv2g = np.cumsum(gammaST2 * ((ST2[1:] - ST2[:-1]) ** 2 - ergamma * ST2[:-1] ** 2), axis=0)
+    
+    # Option payoff
+    if type == "C":
+        discounted_payoff = 0.5 * np.exp(-r * T) * (
+            np.maximum(0, ST1[-1] - X) + beta1 * cv1d[-1] + beta2 * cv1g[-1] +
+            np.maximum(0, ST2[-1] - X) + beta1 * cv2d[-1] + beta2 * cv2g[-1]
+        )
+    elif type == "P":
+        discounted_payoff = 0.5 * np.exp(-r * T) * (
+            np.maximum(0, X - ST1[-1]) + beta1 * cv1d[-1] + beta2 * cv1g[-1] +
+            np.maximum(0, X - ST2[-1]) + beta1 * cv2d[-1] + beta2 * cv2g[-1]
+        )
+    
+    # Estimate
+    C0 = np.sum(discounted_payoff) / M
+    sigma_mc = np.sqrt(np.sum((discounted_payoff - C0) ** 2) / (M - 1))
+    SE = sigma_mc / np.sqrt(M)
+    
+    return C0, SE
+
+# ==========================================
+# PART 3: WRAPPER FOR UI
+# ==========================================
+def run_full_analysis(S, K, vol, r, T, type_op):
+    # Greeks
+    d = bs_delta(r, S, K, T, vol, type_op)
+    g = bs_gamma(r, S, K, T, vol)
+    v = bs_vega(r, S, K, T, vol)
+    th = bs_theta(r, S, K, T, vol, type_op)
+    
+    # Black Scholes
+    bs_val = blackScholes(r, S, K, T, vol, type_op)
+    
+    # Monte Carlo (N=100, M=10000)
+    N = 100    
+    M = 10000  
+    
+    # Generate Random Matrix Z 
+    Z = np.random.normal(0, 1, (N, M))
+    
+    # Run
+    mc_val, mc_se = mc_antithetic_delta_gamma(S, K, vol, r, N, M, Z, T, type_op)
+    
+    return float(bs_val), float(mc_val), float(mc_se), float(d), float(g), float(v), float(th)
+                `);
+
+                status.innerText = "System Ready.";
+                status.style.color = "#64ffda";
+                btn.disabled = false;
+                btn.innerText = "Calculate Price";
+
+            } catch (err) {
+                console.error(err);
+                status.innerText = "Error loading Python engine.";
+                status.style.color = "#ff5f56";
+            }
+        }
+        main();
+
+        async function runPricing() {
+            let btn = document.getElementById("run-btn");
+            let status = document.getElementById("status");
+            
+            let S = parseFloat(document.getElementById("S").value);
+            let K = parseFloat(document.getElementById("K").value);
+            let sigma = parseFloat(document.getElementById("sigma").value);
+            let r = parseFloat(document.getElementById("r").value);
+            let T = parseFloat(document.getElementById("T").value);
+            let type = document.getElementById("type").value;
+
+            btn.disabled = true;
+            status.innerText = "Running Simulation (N=100, M=10,000)...";
+            status.style.color = "#ccd6f6";
+
+            setTimeout(async () => {
+                try {
+                    let result = await pyodide.runPythonAsync(`run_full_analysis(${S}, ${K}, ${sigma}, ${r}, ${T}, '${type}')`);
+                    
+                    let bs_val = result.get(0);
+                    let mc_val = result.get(1);
+                    let mc_se = result.get(2);
+                    let delta = result.get(3);
+                    let gamma = result.get(4);
+                    let vega = result.get(5);
+                    let theta = result.get(6);
+
+                    document.getElementById("bs-price").innerText = bs_val.toFixed(4);
+                    document.getElementById("mc-price").innerText = mc_val.toFixed(4);
+                    document.getElementById("mc-se").innerText = mc_se.toFixed(5);
+                    
+                    document.getElementById("g-delta").innerText = delta.toFixed(4);
+                    document.getElementById("g-gamma").innerText = gamma.toFixed(4);
+                    document.getElementById("g-vega").innerText = vega.toFixed(4);
+                    document.getElementById("g-theta").innerText = theta.toFixed(4);
+                    
+                    status.innerText = "Calculation Complete.";
+                    status.style.color = "#64ffda";
+
+                } catch (err) {
+                    console.error(err);
+                    status.innerText = "Runtime Error. Check console.";
+                    status.style.color = "#ff5f56";
+                }
+
+                btn.disabled = false;
+            }, 50);
+        }
+    </script>
+</body>
+</html>

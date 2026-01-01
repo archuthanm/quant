@@ -801,3 +801,115 @@ body, a, button, input { cursor: auto; }
     .timeline-container { padding-left: 30px; }
     .timeline-item::before { left: -39px; }
 }
+
+
+/* --- QUANT LAB SECTION --- */
+.lab-feature {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 50px;
+    align-items: center;
+    background: var(--card); /* Uses your existing card color */
+    padding: 40px;
+    border-radius: 8px;
+    border: 1px solid rgba(100, 255, 218, 0.1);
+    margin-top: 30px;
+}
+
+.lab-content h2 {
+    color: var(--text-bright);
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.lab-content p {
+    color: var(--text-dim);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.lab-specs {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+.lab-specs li {
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* --- TERMINAL VISUAL --- */
+.terminal-window {
+    background: #011627; /* Deep VS Code Blue */
+    border-radius: 8px;
+    box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    border: 1px solid #1e2d3d;
+    font-family: var(--font-code);
+    transition: transform 0.3s ease;
+}
+
+.lab-feature:hover .terminal-window {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+.terminal-header {
+    background: #011627;
+    padding: 12px 15px;
+    border-bottom: 1px solid #1e2d3d;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.red { background: #ff5f56; }
+.yellow { background: #ffbd2e; }
+.green { background: #27c93f; }
+
+.filename {
+    margin-left: 10px;
+    font-size: 0.8rem;
+    color: #8892b0;
+}
+
+.terminal-body {
+    padding: 20px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.code-line { display: block; }
+.c-purple { color: #c792ea; }
+.c-green { color: #27c93f; }
+.c-comment { color: #637777; font-style: italic; }
+
+.typing-cursor {
+    display: inline-block;
+    color: var(--accent);
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .lab-feature {
+        grid-template-columns: 1fr;
+        padding: 25px;
+    }
+    .lab-visual {
+        display: none; /* Hide terminal on small screens to save space */
+    }
+}
