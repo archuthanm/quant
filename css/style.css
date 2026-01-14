@@ -2,14 +2,37 @@
    1. VARIABLES & CONFIGURATION
    ========================================= */
    :root {
-    --bg: #0a192f;        /* Deep Navy */
-    --card: #112240;      /* Lighter Navy */
-    --text-bright: #e6f1ff; /* Off-white */
-    --text-dim: #8892b0;    /* Slate Grey */
-    --accent: #64ffda;      /* Electric Teal/Cyan */
+    --bg: #0a192f;        /* Quant Navy */
+    --card: #112240;      
+    --text-bright: #e6f1ff; 
+    --text-dim: #8892b0;    
+    --accent: #64ffda;      /* Quant Teal */
+    
+    /* NEW VARIABLES FOR NAV & FOOTER (Quant Defaults) */
+    --nav-bg: rgba(10, 25, 47, 0.95); 
+    --footer-bg: rgba(10, 25, 47, 0.98);
+    
     --font-main: 'Inter', sans-serif;
     --font-code: 'JetBrains Mono', monospace;
     --nav-height: 85px;
+}
+
+/* ENGINEERING THEME OVERRIDES (Matrix/Terminal) */
+body.tech-theme {
+    /* Base Colors: Pure Void Black */
+    --bg: #050505;        
+    --card: #111111;      
+    
+    /* Typography: Off-white & Grey */
+    --text-bright: #eeeeee;
+    --text-dim: #666666;
+    
+    /* Accents: Terminal Green */
+    --accent: #00ff41;    
+    
+    /* Navigation & Footer Specifics */
+    --nav-bg: rgba(5, 5, 5, 0.95);
+    --footer-bg: #000000;              
 }
 
 /* =========================================
@@ -119,7 +142,7 @@ a {
     position: fixed;
     width: 100%;
     top: 0;
-    background: rgba(10, 25, 47, 0.95);
+    background: var(--nav-bg);
     backdrop-filter: blur(10px);
     z-index: 1000; 
     border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -194,7 +217,7 @@ footer {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: rgba(10, 25, 47, 0.98);
+    background: var(--footer-bg);
     border-top: 1px solid #233554;
     padding: 15px 0;
     z-index: 2000;
@@ -463,30 +486,59 @@ footer {
 /* =========================================
    9. SECTION: BIO & TIMELINE
    ========================================= */
-.bio-header-section {
+   .bio-header-section {
     max-width: 800px;
-    margin-bottom: 80px;
+    margin: 0 auto 80px auto; /* Centered with bottom margin */
 }
 
+/* Base Paragraph Style */
 .bio-intro-text {
-    font-size: 1.1rem;
-    color: var(--text-dim);
+    font-family: var(--font-main);
+    font-size: 0.9 rem;
     line-height: 1.8;
-    margin-bottom: 20px;
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    text-align: justify; /* Academic look */
 }
 
+/* The "Hook" Paragraph (Lead) */
+.bio-intro-text.lead-paragraph {
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--text-bright); /* Reuses variable */
+    border-left: 2px solid var(--accent); /* Reuses variable */
+    padding-left: 20px;
+    margin-bottom: 2.5rem;
+}
+
+/* Highlighted words */
 .bio-intro-text strong {
-    color: var(--text-bright);
-    font-weight: 400; /* Keep it subtle */
+    font-weight: 600;
+    color: var(--accent); /* Reuses variable */
+}
+
+/* The grouping for the rest of the text */
+.bio-body-group {
+    /* Reusing your standard border color #233554 found in Section 7 & 8 */
+    border-top: 1px solid #233554; 
+    padding-top: 2rem;
+}
+
+/* Bio Footer (Back Button Area) */
+.bio-footer {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: flex-start;
 }
 
 /* --- Timeline --- */
 .timeline-container {
     position: relative;
     max-width: 800px;
-    margin-left: 10px; /* Slight offset for the line */
-    padding-left: 40px; /* Space for the line */
-    border-left: 2px solid #233554; /* Dark blue line */
+    margin-left: 10px;
+    padding-left: 40px;
+    border-left: 2px solid #233554; /* Reusing standard border color */
 }
 
 .timeline-item {
@@ -494,24 +546,25 @@ footer {
     margin-bottom: 60px;
 }
 
-/* The Glowing Dot */
 .timeline-item::before {
     content: '';
     position: absolute;
-    left: -49px; /* Adjust to sit on the line */
+    left: -49px;
     top: 5px;
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background-color: var(--bg); /* Dark center */
-    border: 2px solid var(--accent); /* Teal border */
-    box-shadow: 0 0 10px rgba(100, 255, 218, 0.4); /* Glow effect */
+    background-color: var(--bg);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 10px var(--accent); /* Reusing variable for glow */
     transition: all 0.3s ease;
+    opacity: 0.7;
 }
 
 .timeline-item:hover::before {
-    background-color: var(--accent); /* Fill on hover */
-    box-shadow: 0 0 20px rgba(100, 255, 218, 0.6);
+    background-color: var(--accent);
+    box-shadow: 0 0 20px var(--accent);
+    opacity: 1;
 }
 
 .timeline-date {
@@ -532,7 +585,7 @@ footer {
 
 .timeline-item:hover .timeline-content {
     transform: translateX(10px);
-    border-color: rgba(100, 255, 218, 0.2);
+    border-color: rgba(100, 255, 218, 0.1); /* Subtle accent border on hover */
 }
 
 .timeline-content h3 {
@@ -580,7 +633,8 @@ footer {
     font-family: var(--font-code);
     font-size: 0.75rem;
     color: var(--accent);
-    background: rgba(100, 255, 218, 0.1);
+    border: 1px solid var(--accent); /* Added border for definition */
+    background: transparent;
     padding: 4px 10px;
     border-radius: 12px;
 }
@@ -788,6 +842,15 @@ body, a, button, input { cursor: auto; }
     html {
         scroll-snap-type: none;
     }
+    
+    .bio-intro-text {
+        text-align: left; /* Remove justify on mobile */
+    }
+    
+    .bio-intro-text.lead-paragraph {
+        font-size: 1.1rem;
+        padding-left: 15px;
+    }
 }
 
 /* Cursor Removal on Touch Devices */
@@ -801,6 +864,7 @@ body, a, button, input { cursor: auto; }
     .timeline-container { padding-left: 30px; }
     .timeline-item::before { left: -39px; }
 }
+
 
 
 /* --- QUANT LAB SECTION --- */
@@ -948,3 +1012,127 @@ body, a, button, input { cursor: auto; }
 @media (max-width: 768px) {
     .lab-feature { flex: 0 0 85%; min-width: 85%; grid-template-columns: 1fr; }
 }
+
+
+/* =========================================
+   TECH LOADER: THE SYSTEM REACTOR (LARGE)
+   ========================================= */
+
+/* Center everything */
+.tech-loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 60px; /* Increased gap */
+    perspective: 1000px; 
+}
+
+/* --- 3D Reactor Visual --- */
+.reactor-container {
+    position: relative;
+    /* SIZE INCREASED HERE */
+    width: 240px;  
+    height: 240px; 
+    transform-style: preserve-3d;
+}
+
+.reactor-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid transparent; /* Thicker borders */
+    border-top-color: var(--accent); 
+    border-bottom-color: var(--accent);
+    box-shadow: 0 0 25px var(--accent), inset 0 0 25px var(--accent); /* Stronger Glow */
+    opacity: 0.8;
+}
+
+.reactor-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* CORE SIZE INCREASED */
+    width: 50px; 
+    height: 50px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 60px var(--accent); /* Bigger Glow */
+    animation: core-pulse 1s infinite alternate;
+}
+
+/* Specific Rotations */
+.ring-1 { animation: spin-3d-1 2s linear infinite; }
+
+.ring-2 { 
+    width: 80%; 
+    height: 80%; 
+    top: 10%; 
+    left: 10%; 
+    animation: spin-3d-2 3s linear infinite reverse; 
+    border-color: var(--text-dim); 
+    border-left-color: transparent; 
+    border-right-color: transparent; 
+    box-shadow: none; 
+    border-width: 3px; /* Slightly thinner than main ring */
+}
+
+.ring-3 { 
+    width: 140%; 
+    height: 140%; 
+    top: -20%; 
+    left: -20%; 
+    animation: spin-3d-3 5s linear infinite; 
+    border: 2px dashed var(--text-dim); /* More visible dashed line */
+    box-shadow: none; 
+    opacity: 0.4; 
+}
+
+/* --- Animations --- */
+@keyframes spin-3d-1 {
+    0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    100% { transform: rotateX(360deg) rotateY(180deg) rotateZ(360deg); }
+}
+@keyframes spin-3d-2 {
+    0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    100% { transform: rotateX(-360deg) rotateY(90deg) rotateZ(0deg); }
+}
+@keyframes spin-3d-3 {
+    0% { transform: rotateZ(0deg); }
+    100% { transform: rotateZ(360deg); }
+}
+@keyframes core-pulse {
+    0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.8); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+}
+
+/* --- Text Interface --- */
+.loader-text-interface {
+    font-family: var(--font-code);
+    text-align: center;
+    width: 400px; /* Wider text area */
+}
+
+.system-status {
+    font-size: 1rem; /* Larger Text */
+    letter-spacing: 4px;
+    color: var(--text-dim);
+    margin-bottom: 15px;
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 8px;
+}
+
+.status-ok { color: var(--accent); font-weight: bold; }
+
+.boot-sequence {
+    height: 24px; 
+    font-size: 1rem; /* Larger Text */
+    color: var(--accent);
+}
+
+.cursor-blink { animation: blink 0.8s infinite; }
+@keyframes blink { 50% { opacity: 0; } }

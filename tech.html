@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archuthan Mohanathasan | Quant Portfolio</title>
+    <title>Archuthan Mohanathasan | Software Engineer</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,17 +11,21 @@
     
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    
-    
+<body class="tech-theme">
     
     <div id="loader-wrapper">
-        <div class="chart-loader-container">
-            <canvas id="market-chart"></canvas>
-            <div class="loader-overlay-text">
-                <span class="mono-accent">GENERATING MARKET DATA...</span>
-                <div class="progress-track">
-                    <div class="progress-fill"></div>
+        <div class="tech-loader-content">
+            <div class="reactor-container">
+                <div class="reactor-ring ring-1"></div>
+                <div class="reactor-ring ring-2"></div>
+                <div class="reactor-ring ring-3"></div>
+                <div class="reactor-core"></div>
+            </div>
+            
+            <div class="loader-text-interface">
+                <div class="system-status">SYSTEM: <span class="status-ok">ONLINE</span></div>
+                <div class="boot-sequence" id="tech-boot-log">
+                    <span class="cursor-blink">_</span>
                 </div>
             </div>
         </div>
@@ -33,7 +37,8 @@
     </div>
 
     <div id="cursor"></div>
-    <app-navbar></app-navbar>
+    
+    <app-navbar current-page="tech"></app-navbar>
 
     <main>
         <header id="hero" class="hero-section">
@@ -44,7 +49,7 @@
                     <h2 id="typewriter-slogan" class="hero-subtitle faded"></h2>
                     
                     <p class="bio-text">
-                        A Computer Science student at King's College London building high-performance systems for financial markets.
+                        A Computer Science student at King's College London architecting scalable, high-availability distributed systems.
                     </p>
                     <div class="hero-cta">
                         <a href="#about" class="btn">More About Me</a>
@@ -64,17 +69,17 @@
                     <div class="about-narrative">
                         <ul class="quant-bullets">
                             <li>
-                                <strong>Origin:</strong> A Computer Science background focused on high-performance systems and machine learning.
+                                <strong>Origin:</strong> A Computer Science background rooted in algorithms, data structures, and systems design.
                             </li>
                             <li>
-                                <strong>Motivation:</strong> Solving problems in markets where nanoseconds of latency and single basis points of accuracy define success.
+                                <strong>Motivation:</strong> Solving complex engineering problems where code quality, scalability, and reliability are non-negotiable.
                             </li>
                             <li>
-                                <strong>Focus:</strong> Capturing market edge by building systems where decision accuracy and engineering precision drive profitability.
+                                <strong>Focus:</strong> Building robust full-stack applications and cloud-native infrastructure that can handle scale.
                             </li>
                         </ul>
                         
-                        <a href="quant-bio.html" class="btn-link">
+                        <a href="eng-bio.html" class="btn-link">
                             Read Full Bio <span class="arrow">→</span>
                         </a>
                     </div>
@@ -82,68 +87,73 @@
                     <div class="skills-compact-panel">
                         <h4 class="skills-header-small">Technical Arsenal</h4>
                         <div class="skills-mini-grid">
+                            
                             <div class="skill-col">
                                 <span class="skill-title">Languages</span>
                                 <ul>
+                                    <li>Java</li>
                                     <li>Python</li>
                                     <li>C++</li>
                                     <li>Scala</li>
-                                    <li>SQL</li>
+                                    <li>HTML/CSS</li>
                                 </ul>
                             </div>
+
                             <div class="skill-col">
-                                <span class="skill-title">Libraries</span>
+                                <span class="skill-title">Core Concepts</span>
                                 <ul>
-                                    <li>NumPy / Pandas</li>
-                                    <li>SciPy / Sklearn</li>
-                                    <li>Matplotlib</li>
-                                    <li>Statsmodels</li>
+                                    <li>Data Structures</li>
+                                    <li>Algorithms</li>
+                                    <li>OOP Patterns</li>
+                                    <li>System Design</li>
                                 </ul>
                             </div>
+
                             <div class="skill-col">
-                                <span class="skill-title">Quant Concepts</span>
+                                <span class="skill-title">Tools</span>
                                 <ul>
-                                    <li>Monte Carlo</li>
-                                    <li>Black-Scholes</li>
-                                    <li>Stat. Arbitrage</li>
-                                    <li>Risk Modeling</li>
+                                    <li>Git / GitHub</li>
+                                    <li>VS Code / IntelliJ</li>
+                                    <li>Command Line</li>
+                                    <li>Jupyter</li>
                                 </ul>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
         
                 <div class="focus-row">
-                    <h4 class="skills-header-small">Current Research Focus</h4>
+                    <h4 class="skills-header-small">Current Engineering Focus</h4>
                     <div class="focus-grid-compact">
                         
                         <div class="focus-card">
                             <div class="focus-header">
                                 <span class="focus-number">01</span>
-                                <h5>Quantitative Risk & Portfolio Theory</h5>
+                                <h5>Modular Software Architecture</h5>
                             </div>
                             <p>
-                                How do you "invest sensibly" in a mathematical sense? I'm fascinated by Modern Portfolio Theory (MPT) and the application of maths and programming to quantify and minimise risk.
+                                I don't just write code; I design systems. My focus is on <strong>modularity and reusability</strong> - building decoupled components and libraries that can be easily maintained and integrated into various applications.
                             </p>
                         </div>
         
                         <div class="focus-card">
                             <div class="focus-header">
                                 <span class="focus-number">02</span>
-                                <h5>Algorithmic Strategy & Market Analysis</h5>
+                                <h5>AI Integration & API Ecosystems</h5>
                             </div>
                             <p>
-                                I'm exploring how to apply Python and time-series analysis to find statistical patterns in stock market data. My goal is to move from theory to application by building and testing data-driven strategies.
+                                I am exploring the practical application of Artificial Intelligence. I focus on orchestrating <strong>RESTful APIs</strong> to embed Large Language Models (LLMs) into web apps, transforming static interfaces into dynamic, intelligent experiences.
                             </p>
                         </div>
         
                         <div class="focus-card">
                             <div class="focus-header">
                                 <span class="focus-number">03</span>
-                                <h5>Emerging Assets & Volatility</h5>
+                                <h5>Product Engineering & UX</h5>
                             </div>
                             <p>
-                                Assets like cryptocurrencies present a unique challenge. I'm researching how they fit into a diversified portfolio and how advanced models can be used to understand their extreme volatility.
+                                I bridge the gap between backend logic and user experience. My goal is to build applications that are not only <strong>aesthetically pleasing</strong> but highly functional - ensuring robust performance and seamless usability for the end user.
                             </p>
                         </div>
         
@@ -155,39 +165,41 @@
 
         <section id="lab" class="section-block">
             <div class="container">
-                <h3 class="section-header">02. Quant Lab</h3>
+                <h3 class="section-header">02. Engineering Lab</h3>
                 
                 <div class="lab-scroll-wrapper">
                     
                     <div class="lab-feature">
                         <div class="lab-content">
-                            <h2>Interactive Options Engine</h2>
+                            <h2>Recipify: Social Platform</h2>
                             <p>
-                                I believe in building tools, not just models. I took functions from my Options Pricing research to build a web-based pricing engine that runs <strong>production-grade Python code</strong> directly in your browser via WebAssembly (Pyodide).
+                                A collaborative <strong>full-stack web application</strong> built to connect the culinary community. We architected the relational database schema to handle complex social graphs (following/followers), ingredient-based search algorithms, and secure user authentication.
                             </p>
                             <ul class="lab-specs">
-                                <li><span>⚡</span> Vectorised Monte Carlo Simulation</li>
-                                <li><span>📉</span> Antithetic Variance Reduction</li>
-                                <li><span>🐍</span> Full NumPy & SciPy Integration</li>
+                                <li><span>🐍</span> Python Backend (Django)</li>
+                                <li><span>🗄️</span> Relational Data Modeling</li>
+                                <li><span>☁️</span> Deployed on Python Anywhere</li>
                             </ul>
                             <div class="lab-cta">
-                                <a href="options_calc.html" class="btn">Initialise System</a>
+                                <a href="https://tan4.eu.pythonanywhere.com/" class="btn" target="_blank" rel="noopener noreferrer">Launch Platform</a>
                             </div>
                         </div>
                         <div class="lab-visual">
                             <div class="terminal-window">
                                 <div class="terminal-header">
                                     <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-                                    <span class="filename">mc_engine.py</span>
+                                    <span class="filename">views.py</span>
                                 </div>
                                 <div class="terminal-body">
-                                    <div class="code-line"><span class="c-purple">import</span> numpy <span class="c-purple">as</span> np</div>
-                                    <div class="code-line"><span class="c-purple">from</span> scipy.stats <span class="c-purple">import</span> norm</div>
+                                    <div class="code-line"><span class="c-purple">from</span> app <span class="c-purple">import</span> models</div>
+                                    <div class="code-line"><span class="c-purple">from</span> db <span class="c-purple">import</span> session</div>
                                     <br>
-                                    <div class="code-line"><span class="c-comment"># Initialising Monte Carlo...</span></div>
-                                    <div class="code-line">> Simulations: <span class="c-green">10,000</span></div>
-                                    <div class="code-line">> Variance Reduction: <span class="c-green">Active</span></div>
-                                    <div class="code-line">> System: <span class="c-green">Ready</span></div>
+                                    <div class="code-line"><span class="c-comment"># Processing search query...</span></div>
+                                    <div class="code-line"><span class="c-purple">def</span> <span class="c-green">filter_recipes</span>(query):</div>
+                                    <div class="code-line">&nbsp;&nbsp;results = models.Recipe.query.filter(</div>
+                                    <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;models.Tag.in_(query.tags)</div>
+                                    <div class="code-line">&nbsp;&nbsp;)</div>
+                                    <div class="code-line">&nbsp;&nbsp;<span class="c-purple">return</span> results.limit(<span class="c-green">20</span>)</div>
                                     <div class="typing-cursor">|</div>
                                 </div>
                             </div>
@@ -232,83 +244,16 @@
                 </div> </div>
         </section>
 
-        <section id="projects" class="section-block">
-            <div class="container">
-                <h3 class="section-header">03. Selected Projects</h3>
-                
-                <div class="project-cards">
-                    <article class="card">
-                        <div class="card-top">
-                            <span class="folder-icon">📂</span>
-                            <div class="links">
-                                <a href="https://github.com/archuthanm/options-pricing-risk-analysis" target="_blank">GitHub</a>
-                                <a href="assets/documents/Options Pricing and Risk Analysis Project.pdf" target="_blank">Paper</a>
-                            </div>
-                        </div>
-                        <a href="projects/options-pricing.html">
-                            <h4>Options Pricing Analysis</h4>
-                        </a>
-                        <p class="project-desc">
-                            Built and validated robust pricing models using Monte Carlo simulations. Implemented variance reduction techniques to improve convergence speed and accuracy.
-                        </p>
-                        <div class="card-tags">
-                            <span>Python</span>
-                            <span>Monte Carlo</span>
-                            <span>Black-Scholes</span>
-                        </div>
-                    </article>
-
-                    <article class="card">
-                        <div class="card-top">
-                            <span class="folder-icon">📂</span>
-                            <div class="links">
-                                <a href="https://github.com/archuthanm/portfolio-optimisation-mpt" target="_blank">GitHub</a>
-                            </div>
-                        </div>
-                        <a href="projects/mpt-optimisation.html">
-                            <h4>Modern Portfolio Theory</h4>
-                        </a>
-                        <p class="project-desc">
-                            Constructed the Efficient Frontier using Monte Carlo simulations on S&P 500 data. Optimised for Max Sharpe Ratio and Minimum Volatility portfolios.
-                        </p>
-                        <div class="card-tags">
-                            <span>Python</span>
-                            <span>Optimisation</span>
-                            <span>SciPy</span>
-                        </div>
-                    </article>
-
-                    <article class="card">
-                        <div class="card-top">
-                            <span class="folder-icon">📂</span>
-                            <div class="links">
-                                <a href="https://github.com/archuthanm/fama-french-hml-factor" target="_blank">GitHub</a>
-                            </div>
-                        </div>
-                        <a href="projects/fama-french.html">
-                            <h4>Fama-French Replication</h4>
-                        </a>
-                        <p class="project-desc">
-                            Replicated the 'Value' (HML) factor. Constructed long-short portfolios based on Book-to-Market ratios to test the value premium in the S&P 500.
-                        </p>
-                        <div class="card-tags">
-                            <span>Python</span>
-                            <span>Pandas</span>
-                            <span>Factor Investing</span>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
+        
 
         <section id="contact" class="section-block">
             <div class="container">
-                <h3 class="section-header">04. Contact</h3>
+                <h3 class="section-header">03. Contact</h3>
                 
                 <div class="contact-wrapper">
                     <h1 class="contact-title">Get In Touch</h1>
                     <p class="contact-sub">
-                        I'm actively seeking internship and research opportunities in quantitative finance.
+                        I'm actively seeking <strong>Software Engineering</strong> and <strong>Developer</strong> opportunities.
                     </p>
         
                     <form action="https://formspree.io/f/xqavkzev" method="POST" class="contact-form">
