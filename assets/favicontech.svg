@@ -3,7 +3,7 @@
     
     <line x1="0" y1="20" x2="64" y2="20" stroke="#172a45" stroke-width="4"/>
 
-    <g fill="#172a45">
+    <g fill="#64ffda">
         <circle cx="12" cy="10" r="3"/>
         <circle cx="22" cy="10" r="3"/>
         <circle cx="32" cy="10" r="3"/>
