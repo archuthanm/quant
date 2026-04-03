@@ -240,8 +240,44 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="lab-feature">
+                        <div class="lab-content">
+                            <h2>LockedIn: Productivity Platform</h2>
+                            <p>
+                                A full-stack <strong>student productivity platform</strong> built with Django to unify calendar planning, task management, reminders, social features, and performance tracking in one system. The platform combines structured scheduling with collaborative and gamified elements to improve organisation and engagement.
+                            </p>
+                            <ul class="lab-specs">
+                                <li><span>🐍</span> Django Full-Stack Application</li>
+                                <li><span>📅</span> Calendar, Tasks, Reminders, and Planning</li>
+                                <li><span>🚀</span> Deployed on PythonAnywhere</li>
+                            </ul>
+                            <div class="lab-cta">
+                                <a href="https://arunsri872.pythonanywhere.com" class="btn" target="_blank" rel="noopener noreferrer">Launch Platform</a>
+                            </div>
+                        </div>
+                        <div class="lab-visual">
+                            <div class="terminal-window">
+                                <div class="terminal-header">
+                                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                                    <span class="filename">dashboard.py</span>
+                                </div>
+                                <div class="terminal-body">
+                                    <div class="code-line"><span class="c-purple">from</span> time_management.models <span class="c-purple">import</span> Task, Event</div>
+                                    <div class="code-line"><span class="c-purple">from</span> time_management.services <span class="c-purple">import</span> planner</div>
+                                    <br>
+                                    <div class="code-line"><span class="c-comment"># Building personalised productivity dashboard...</span></div>
+                                    <div class="code-line"><span class="c-purple">def</span> <span class="c-green">build_dashboard</span>(user):</div>
+                                    <div class="code-line">&nbsp;&nbsp;tasks = planner.get_upcoming_tasks(user)</div>
+                                    <div class="code-line">&nbsp;&nbsp;events = planner.get_todays_events(user)</div>
+                                    <div class="code-line">&nbsp;&nbsp;<span class="c-purple">return</span> {"tasks": tasks, "events": events}</div>
+                                    <div class="typing-cursor">|</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
         
-                </div> </div>
+                </div>
         </section>
 
         
